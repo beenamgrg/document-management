@@ -1,0 +1,108 @@
+.datatable-buttons {
+  color: white !important;
+  text-align: center;
+  cursor: pointer;
+}
+
+.datatable-delete {
+  margin-left: 5px;
+}
+
+.required {
+  color: red;
+}
+
+.custom-button {
+  color: white !important;
+  width: 10%;
+}
+
+tfoot {
+  display: none; // shall be removed as per requirement
+}
+
+.underline {
+  text-decoration: line-through;
+  margin-right: 5px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.page-wrapper > .view-camp {
+  min-height: unset;
+}
+
+.camp-banner {
+  height: 600px;
+  width: 100%;
+}
+
+.camp-banner img {
+  height: 100%;
+  width: 100%;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  background-color: #5f76e8;
+  border-radius: 30%;
+}
+
+.camp-package {
+  height: 400px;
+  width: 100%;
+}
+
+.camp-package img {
+  height: 100%;
+  width: 100%;
+}
+
+.package-desc {
+  padding-top: 0px;
+  text-align: center;
+}
+
+.description {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.description::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+.description::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.description::-webkit-scrollbar-thumb {
+  background-color: #5f76e8;
+  outline: 1px solid slategrey;
+}
+
+.custom-modal-label {
+  font-weight: bold;
+}
+
+.custom-hidden {
+  display: none;
+}
+
+.profile-update button {
+  width: auto;
+}
+
+.show-hide {
+  cursor: pointer;
+}
+.sidebar-item:hover {
+  background-color: #e1e1e2;
+}
