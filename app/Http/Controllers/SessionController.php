@@ -53,6 +53,7 @@ class SessionController extends Controller
                     return redirect()->back()->withInput($request->input());
                 }
                 Session::flash('success', 'Login Success.');
+                return redirect()->route('dashboard.index');
             }
             else
             {
@@ -62,7 +63,7 @@ class SessionController extends Controller
         }
         catch (Exception $e)
         {
-            Session::flash('error', 'Something went wrong. Please try again !');
+            Session::flash('error', $e->getMessage());
             return redirect()->back()->withInput($request->input())
                 ->withErrors($validator->errors());
         }
@@ -72,6 +73,6 @@ class SessionController extends Controller
     {
         Auth::logout();
         Session::flash('success', 'Logged out Succesfully.');
-        return redirect()->route('home');
+        return redirect()->route('index');
     }
 }

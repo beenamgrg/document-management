@@ -36,7 +36,7 @@
                             <i data-feather="power" class="svg-icon mr-2 ml-1"></i> Logout
                         </a>
                     </div>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout.submit') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
                 </li>

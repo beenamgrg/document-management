@@ -13,7 +13,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item @if (request()->is('admin/products*')) selected @endif">
-                    <a class="sidebar-link sidebar-link" href="{{route('product.index')}}" aria-expanded="false">
+                    <a class="sidebar-link sidebar-link" href="#" aria-expanded="false">
                         <i data-feather="shopping-cart" class="feather-icon"></i> Products
                     </a>
                 </li>

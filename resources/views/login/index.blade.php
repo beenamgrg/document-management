@@ -30,7 +30,7 @@
                             {{-- <img src="{{ asset('assets/images/big/icon.png') }}" alt="wrapkit"> --}}
                         </div>
                         {{-- <h2 class="mt-3 text-center">Sign In</h2> --}}
-                        <p class="text-center">Enter your email address and password to access admin panel.</p>
+                        <p class="text-center">Enter your email address and password for further access.</p>
                         <form class="mt-4" method="post" action="{{ route('login.submit') }}">
                             @csrf
                             <div class="row">
