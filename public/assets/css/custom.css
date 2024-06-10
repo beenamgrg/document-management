@@ -1,108 +1,149 @@
 .datatable-buttons {
-  color: white !important;
-  text-align: center;
-  cursor: pointer;
+    color: white !important;
+    text-align: center;
+    cursor: pointer;
 }
 
 .datatable-delete {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .required {
-  color: red;
+    color: red;
 }
 
 .custom-button {
-  color: white !important;
-  width: 10%;
+    color: white !important;
+    width: 10%;
 }
 
 tfoot {
-  display: none; // shall be removed as per requirement
+    display: none; // shall be removed as per requirement
 }
 
 .underline {
-  text-decoration: line-through;
-  margin-right: 5px;
+    text-decoration: line-through;
+    margin-right: 5px;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .table td,
 .table th {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .page-wrapper > .view-camp {
-  min-height: unset;
+    min-height: unset;
 }
 
 .camp-banner {
-  height: 600px;
-  width: 100%;
+    height: 600px;
+    width: 100%;
 }
 
 .camp-banner img {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .carousel-control-next-icon,
 .carousel-control-prev-icon {
-  background-color: #5f76e8;
-  border-radius: 30%;
+    background-color: #5f76e8;
+    border-radius: 30%;
 }
 
 .camp-package {
-  height: 400px;
-  width: 100%;
+    height: 400px;
+    width: 100%;
 }
 
 .camp-package img {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .package-desc {
-  padding-top: 0px;
-  text-align: center;
+    padding-top: 0px;
+    text-align: center;
 }
 
 .description {
-  max-height: 200px;
-  overflow-y: auto;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .description::-webkit-scrollbar {
-  width: 0.2em;
+    width: 0.2em;
 }
 
 .description::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 .description::-webkit-scrollbar-thumb {
-  background-color: #5f76e8;
-  outline: 1px solid slategrey;
+    background-color: #5f76e8;
+    outline: 1px solid slategrey;
 }
 
 .custom-modal-label {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .custom-hidden {
-  display: none;
+    display: none;
 }
 
 .profile-update button {
-  width: auto;
+    width: auto;
 }
 
 .show-hide {
-  cursor: pointer;
+    cursor: pointer;
 }
 .sidebar-item:hover {
-  background-color: #e1e1e2;
+    background-color: #e1e1e2;
+}
+.login-with-google-btn {
+    transition: background-color 0.3s, box-shadow 0.3s;
+
+    padding: 12px 16px 12px 42px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
+
+    color: #757575;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: 12px 11px;
+
+    &:hover {
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    &:active {
+        background-color: #eeeeee;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
+            0 0 0 3px #c8dafc;
+    }
+
+    &:disabled {
+        filter: grayscale(100%);
+        background-color: #ebebeb;
+        box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
+        cursor: not-allowed;
+    }
 }
