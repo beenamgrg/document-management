@@ -43,6 +43,7 @@ class GoogleAuthController extends Controller
             }
             // dd($google_user);
             DB::commit();
+            Session::flash('success', 'Logged in Successfully.');
             return redirect()->intended('dashboard/index');
         }
         catch (Exception $e)

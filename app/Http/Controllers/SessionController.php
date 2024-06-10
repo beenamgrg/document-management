@@ -75,7 +75,7 @@ class SessionController extends Controller
                     Session::flash('error', 'Your account is not activated yet.');
                     return redirect()->back()->withInput($request->input());
                 }
-                Session::flash('success', 'Login Success.');
+                Session::flash('success', 'Logged in Successfully.');
                 return redirect()->route('dashboard.index');
             }
             else
