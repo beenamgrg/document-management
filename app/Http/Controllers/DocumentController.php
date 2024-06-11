@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Document;
+use App\Jobs\ProcessCSV;
 
 
 
@@ -26,13 +27,14 @@ class DocumentController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [
-                'document' => 'required|mimes:csv|max:' . config('fileSize.max_file_size'),
+                'document' => 'required|mimes:csv,txt|max:' . config('fileSize.max_file_size'),
             ]);
             if ($validator->fails())
             {
                 Session::flash('warning', 'Validation Error');
                 return redirect()->back()->withInput($request->input());
             }
+
             // Generate a unique identifier for the file
             $guid = Str::uuid();
 
@@ -44,7 +46,7 @@ class DocumentController extends Controller
 
             // Move the uploaded file to the desired location
             $file_path = '/documents/';
-            $file_name = $guid . '.' . $request->document->extension();
+            $file_name = $guid . '.' . $request->document->getClientOriginalExtension();
             $request->file('document')->move(public_path($file_path), $file_name);
 
             // Construct the full path to the uploaded file
@@ -62,7 +64,7 @@ class DocumentController extends Controller
             $document = new Document();
             $document->document_name = $document_name;
             $document->document_file = $file_path . $file_name; // Corrected file path
-            // $document->document_type = $type;
+            $document->document_type = $type;
             $document->document_guid = $guid;
             $document->document_checksum = $checksum;
             $document->document_size = $document_size . ' bytes';
@@ -71,10 +73,14 @@ class DocumentController extends Controller
 
             DB::commit();
 
+            //Dispatch the job to generate json file of that csv file
+            ProcessCSV::dispatch($file_path . $file_name, $guid);
+
             return redirect()->back()->with('success', 'Document created successfully');
         }
         catch (Exception $e)
         {
+            dd($e->getMessage());
             DB::rollBack();
             Session::flash('error', 'couldnot create');
             return redirect()->back()->withInput($request->input());

@@ -45,20 +45,11 @@
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-6 col-md-9 col-lg-9">
-                            @if ($errors->any())
-                            <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li style="font-size: smaller;">{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
                         </div>
                         <div class="col-6 col-md-3 col-lg-3">
                             <form action="{{ route('document.store') }}" method="post" enctype="multipart/form-data" id="uploadForm">
                                 @csrf
-                                <input type="file" id="csv_file" class="form-control" required name="document" style="display:none;"  onchange="handleFileChange()">
+                                <input type="file" id="csv_file" class="form-control" required name="document" accept=".csv" style="display:none;"  onchange="handleFileChange()">
     
                                 <button type="button" class="btn btn-info"style="float: right;width: 100%;" onclick="triggerFileInput()">Import CSV</button>
                             </form>
