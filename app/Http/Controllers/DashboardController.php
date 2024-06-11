@@ -15,10 +15,21 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $documents = Document::select('documents.*', 'users.name as uploaded_by')
-            ->leftjoin('users', 'users.id', 'documents.user_id')
-            ->orderBy('documents.created_at', 'DESC')
-            ->paginate(5);
+        if (Auth::user()->role == "admin")
+        {
+            $documents = Document::select('documents.*', 'users.name as uploaded_by', 'users.status as user_status')
+                ->leftjoin('users', 'users.id', 'documents.user_id')
+                ->orderBy('documents.created_at', 'DESC')
+                ->paginate(5);
+        }
+        else
+        {
+            $documents = Document::select('documents.*', 'users.name as uploaded_by')
+                ->leftjoin('users', 'users.id', 'documents.user_id')
+                ->where('documents.user_id', Auth::user()->id)
+                ->orderBy('documents.created_at', 'DESC')
+                ->paginate(5);
+        }
         $document_count = (Auth::user()->role == 'admin') ? Document::count() : Document::where('user_id', Auth::user()->id)->count();
         // dd($documents->links());
         return view('dashboard.index', compact('document_count', 'documents'));

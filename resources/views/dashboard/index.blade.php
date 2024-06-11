@@ -65,7 +65,10 @@
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>Size</th>
+                                    @if(Auth::user()->role == "admin")
                                     <th>Uploaded By</th>
+                                    <th>User Status</th>
+                                    @endif
                                     <th>Uploaded At</th>
                                     <th>Action</th>
                                 </tr>
@@ -75,13 +78,20 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }} </td>
                                         <td>{{ $document->document_name }} </td>
+                                        <td style="display:none;" id="document_guid">{{ $document->document_guid }} </td>
                                         <td>{{ $document->document_type }} </td>
                                         <td>{{ $document->document_size }} </td>
-                                        <td>{{ $document->uploaded_by }} </td>
-                                        <td>{{  \Carbon\Carbon::parse($document->created_at)->format('Y-m-d')}} </td>
-                                        <td>
-                                            <a href="{{route('document.delete')}}" class="btn btn-danger btn-sm">Delete
-                                            </a>
+                                        @if(Auth::user()->role == "admin")
+                                            <td>{{ $document->uploaded_by }} </td>
+                                            <td>
+                                            @if($document->user_status == 1)<span class="badge badge-success">Active</span>
+                                            @else 
+                                            <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                            </td>
+                                        @endif
+                                        <td>{{ \Carbon\Carbon::parse($document->created_at)->format('Y-m-d')}} </td>
+                                        <td><button type="button" class="btn btn-danger btn-sm" id="delete" data-toggle="modal"  value="{{$document->id}}" data-target="#myModal">Delete</button>
                                             <a href="{{route('document.download', ['file_name' => $document->document_file])}}" class="btn btn-success btn-sm">Download
                                             </a>
                                         </td>
@@ -99,6 +109,29 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ARE YOU SURE?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this item?</p>
+            </div>
+            <div class="modal-footer">
+                <form action="{{ route('document.delete') }}" method="post">
+                    @csrf
+                    <input type="hidden" id="id" name="id">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">NO</button>
+                    <button type="submit" class="btn btn-primary">YES</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
 @endsection
 @push('js')
     <script>
@@ -109,6 +142,11 @@
         function handleFileChange() {
             document.getElementById('uploadForm').submit();
         }
+        $('body').on('click', '#delete', function() {
+            var id = $(this).parents('tr').find('#document_guid').text();
+            $('#id').val(id);
+        })
     </script>
+    
 
 @endpush

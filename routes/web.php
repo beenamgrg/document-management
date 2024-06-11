@@ -30,7 +30,7 @@ Route::group(['middleware' => ['LoginCheck']], function ()
     //Documents Actions
     Route::post('/document/store',  [DocumentController::class, 'store'])->name('document.store');
     Route::get('/document/download',  [DocumentController::class, 'download'])->name('document.download');
-    Route::get('/document/delete',  [DocumentController::class, 'delete'])->name('document.delete');
+    Route::post('/document/delete',  [DocumentController::class, 'delete'])->name('document.delete');
     Route::group(['middleware' => ['AdminCheck']], function ()
     {
         Route::get('/users', [UserController::class, 'index'])->name('admin.users');

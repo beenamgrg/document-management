@@ -77,16 +77,32 @@ class DocumentController extends Controller
         }
         catch (Exception $e)
         {
-            dd($e->getMessage());
             DB::rollBack();
             Session::flash('error', 'couldnot create');
             return redirect()->back()->withInput($request->input());
         }
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        dd(1);
+        DB::beginTransaction();
+        try
+        {
+            //Authentication of the user
+            $check = Document::where('user_id', Auth::user()->id)->where('document_guid', $request->id)->first();
+            if ($check == NULL)
+            {
+                return redirect()->back()->with('error', 'Forbidden Access');
+            }
+            $check->delete();
+            DB::commit();
+            return redirect()->back()->with('success', 'Document has been deleted successfully!!');
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function download(Request $request)
