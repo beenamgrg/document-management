@@ -8,11 +8,12 @@
 
 <div class="container-fluid">
     <div class="card-group"style="column-gap:1rem;">
+        @if(Auth::user()->role == "admin")
         <div class="card border-right">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
-                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">20
+                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">{{DB::table('users')->where('status',1)->count();}}
                         </h2>
                         <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Users</h6>
                     </div>
@@ -22,11 +23,12 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="card border-right">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
-                        <h2 class="text-dark mb-1 font-weight-medium">20</h2>
+                        <h2 class="text-dark mb-1 font-weight-medium">{{$document_count}}</h2>
                         <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Documents</h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
@@ -51,7 +53,7 @@
                                 @csrf
                                 <input type="file" id="csv_file" class="form-control" required name="document" accept=".csv" style="display:none;"  onchange="handleFileChange()">
     
-                                <button type="button" class="btn btn-info"style="float: right;width: 100%;" onclick="triggerFileInput()">Import CSV</button>
+                                <button type="button" class="btn btn-info"style="float: right;width: 100%;" onclick="triggerFileInput()">Upload Document</button>
                             </form>
                         </div>
                     </div>
@@ -68,33 +70,29 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            {{-- <tbody>
-                                @foreach ($products as $product)
+                            <tbody>
+                                @foreach ($documents as $document)
                                     <tr>
                                         <td>{{ $loop->index + 1 }} </td>
-                                        <td>{{ $product->name }} </td>
-                                        <td><img src="{{ url($product->image) }}" class="rounded-circle" width="50"
-                                                height="50" /> </td>
-                                        <td>{{ $product->quantity }} </td>
-                                        <td>{{ $product->cost }} </td>
+                                        <td>{{ $document->document_name }} </td>
+                                        <td>{{ $document->document_type }} </td>
+                                        <td>{{ $document->document_size }} </td>
+                                        <td>{{ $document->uploaded_by }} </td>
+                                        <td>{{  \Carbon\Carbon::parse($document->created_at)->format('Y-m-d')}} </td>
                                         <td>
-                                            @if ($product->active == '1')
-                                                Active
-                                            @else
-                                                Inactive
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="products/{{ $product->id }}/edit" class="btn btn-dark btn-sm">Edit
+                                            <a href="{{route('document.delete')}}" class="btn btn-danger btn-sm">Delete
                                             </a>
-                                            <a href="products/delete/{{ $product->id }}" class="btn btn-dark btn-sm">Delete
+                                            <a href="{{route('document.download', ['file_name' => $document->document_file])}}" class="btn btn-success btn-sm">Download
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
 
-                            </tbody> --}}
+                            </tbody>
                         </table>
+                        <div class="pagination">
+                            {{ $documents->links('pagination::bootstrap-4')}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,4 +110,5 @@
             document.getElementById('uploadForm').submit();
         }
     </script>
+
 @endpush

@@ -17,10 +17,7 @@ use App\Jobs\ProcessCSV;
 class DocumentController extends Controller
 {
     //Document Create
-    public function create()
-    {
-        return view('document.create');
-    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -84,6 +81,31 @@ class DocumentController extends Controller
             DB::rollBack();
             Session::flash('error', 'couldnot create');
             return redirect()->back()->withInput($request->input());
+        }
+    }
+
+    public function delete()
+    {
+        dd(1);
+    }
+
+    public function download(Request $request)
+    {
+        try
+        {
+            $file_path = public_path($request->file_name);
+
+            // Check if the file exists
+            if (file_exists($file_path))
+            {
+                // Return the file as a response for download
+                return response()->download($file_path);
+            }
+            return redirect()->back()->with('error', 'File couldnot be downloaded');
+        }
+        catch (Exception $e)
+        {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }
