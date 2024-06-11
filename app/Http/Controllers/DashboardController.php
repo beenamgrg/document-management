@@ -15,6 +15,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        //Access of all documents to admin
         if (Auth::user()->role == "admin")
         {
             $documents = Document::select('documents.*', 'users.name as uploaded_by', 'users.status as user_status')
@@ -22,11 +23,22 @@ class DashboardController extends Controller
                 ->orderBy('documents.created_at', 'DESC')
                 ->paginate(5);
         }
+        //Documents that are uploaded by the authenticated users(both public and private)
         else
         {
             $documents = Document::select('documents.*', 'users.name as uploaded_by')
                 ->leftjoin('users', 'users.id', 'documents.user_id')
                 ->where('documents.user_id', Auth::user()->id)
+                ->orderBy('documents.created_at', 'DESC')
+                ->paginate(5);
+        }
+        //public type of document
+        if ($request->document_type == "public")
+        {
+            $documents = Document::select('documents.*', 'users.name as uploaded_by')
+                ->leftjoin('users', 'users.id', 'documents.user_id')
+                ->where('documents.user_id', '!=', Auth::user()->id)
+                ->where('documents.document_type', 'public')
                 ->orderBy('documents.created_at', 'DESC')
                 ->paginate(5);
         }
