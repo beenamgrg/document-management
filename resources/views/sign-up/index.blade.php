@@ -44,7 +44,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" >Email</label>
-                                        <input class="form-control @if ($errors->has('email')) is-invalid @endif"  type="email" name="email" placeholder="Enter your email" required="required" value="{{ old('email') }}">
+                                        <input class="form-control @if ($errors->has('email')) is-invalid @endif" type="email"  name="email" placeholder="Enter your email" required="required" value="{{ old('email') }}">
                                         <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                     </div>
                                 </div>
@@ -115,7 +115,9 @@
             @endif
 
             @if(Session::has('error'))
-            toastr["error"]('<?= Session::get('error') ?>', "Error");
+            @foreach (Session::get('error') as $message)
+            toastr["error"]('<?= $message ?>', "Error");
+            @endforeach
             @endif
         });
     </script>

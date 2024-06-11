@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 
 class SessionController extends Controller
@@ -63,7 +64,7 @@ class SessionController extends Controller
 
             if ($validator->fails())
             {
-                Session::flash('warning', 'Invalid Credentials');
+                Session::flash('error', $validator->errors()->all());
                 return redirect()->back()
                     ->withInput($request->input());
             }
@@ -115,7 +116,7 @@ class SessionController extends Controller
             ]);
             if ($validator->fails())
             {
-                Session::flash('warning', $validator->errors()->all());
+                Session::flash('error', $validator->errors()->all());
                 return redirect()->back()
                     ->withInput($request->input());
             }

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,4 +29,14 @@ Route::group(['middleware' => ['LoginCheck']], function ()
 
     //Documents Actions
     Route::post('/document/store',  [DocumentController::class, 'store'])->name('document.store');
+    Route::get('/document/download',  [DocumentController::class, 'download'])->name('document.download');
+    Route::post('/document/delete',  [DocumentController::class, 'delete'])->name('document.delete');
+    Route::prefix('admin')->group(function ()
+    {
+        Route::group(['middleware' => ['AdminCheck']], function ()
+        {
+            Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+            Route::post('/user/delete', [UserController::class, 'delete'])->name('admin.users.delete');
+        });
+    });
 });

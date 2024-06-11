@@ -17,10 +17,7 @@ use App\Jobs\ProcessCSV;
 class DocumentController extends Controller
 {
     //Document Create
-    public function create()
-    {
-        return view('document.create');
-    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -29,10 +26,13 @@ class DocumentController extends Controller
             $validator = Validator::make($request->all(), [
                 'document' => 'required|mimes:csv,txt|max:' . config('fileSize.max_file_size'),
             ]);
+
+            //Validation is working but I don't know why the session is not storing error messages
             if ($validator->fails())
             {
-                Session::flash('warning', 'Validation Error');
-                return redirect()->back()->withInput($request->input());
+                Session::flash('error', $validator->errors()->all());
+                return redirect()->back()
+                    ->withInput($request->input());
             }
 
             // Generate a unique identifier for the file
@@ -80,10 +80,51 @@ class DocumentController extends Controller
         }
         catch (Exception $e)
         {
-            dd($e->getMessage());
             DB::rollBack();
             Session::flash('error', 'couldnot create');
             return redirect()->back()->withInput($request->input());
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        DB::beginTransaction();
+        try
+        {
+            //Authentication of the user
+            $check = Document::where('user_id', Auth::user()->id)->where('document_guid', $request->id)->first();
+            if ($check == NULL)
+            {
+                return redirect()->back()->with('error', 'Forbidden Access');
+            }
+            $check->delete();
+            DB::commit();
+            return redirect()->back()->with('success', 'Document has been deleted successfully!!');
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function download(Request $request)
+    {
+        try
+        {
+            $file_path = public_path($request->file_name);
+
+            // Check if the file exists
+            if (file_exists($file_path))
+            {
+                // Return the file as a response for download
+                return response()->download($file_path);
+            }
+            return redirect()->back()->with('error', 'File couldnot be downloaded');
+        }
+        catch (Exception $e)
+        {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

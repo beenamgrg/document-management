@@ -8,25 +8,30 @@
 
 <div class="container-fluid">
     <div class="card-group"style="column-gap:1rem;">
+        @if(Auth::user()->role == "admin")
         <div class="card border-right">
-            <div class="card-body">
-                <div class="d-flex d-lg-flex d-md-block align-items-center">
-                    <div>
-                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">20
-                        </h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Users</h6>
-                    </div>
-                    <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+            <a href="{{route('admin.users')}}">
+                <div class="card-body">
+                    <div class="d-flex d-lg-flex d-md-block align-items-center">
+                        <div>
+                            <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">{{DB::table('users')->where('status',1)->count();}}
+                            </h2>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Users</h6>
+                        </div>
+                        <div class="ml-auto mt-md-3 mt-lg-0">
+                            <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
+        @endif
         <div class="card border-right">
+            <a href="{{route('dashboard.index')}}">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
-                        <h2 class="text-dark mb-1 font-weight-medium">20</h2>
+                        <h2 class="text-dark mb-1 font-weight-medium">{{$document_count}}</h2>
                         <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Documents</h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
@@ -34,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
     </div>
         <div class="row container-fluid">
@@ -51,10 +57,15 @@
                                 @csrf
                                 <input type="file" id="csv_file" class="form-control" required name="document" accept=".csv" style="display:none;"  onchange="handleFileChange()">
     
-                                <button type="button" class="btn btn-info"style="float: right;width: 100%;" onclick="triggerFileInput()">Import CSV</button>
+                                <button type="button" class="btn btn-info"style="float: right;width: 100%;" onclick="triggerFileInput()">Upload Document</button>
                             </form>
                         </div>
                     </div>
+                    @if($documents->count()<1)
+                    <div>
+                        <h3 class="text-muted font-weight-bold mb-0 w-100 text-truncate">No Documents</h3>
+                    </div>                
+                    @else
                     <div class="table-responsive">
                         <table id="datatable_product" class="table table-striped table-bordered display no-wrap" style="width:100%">
                             <thead>
@@ -63,42 +74,72 @@
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>Size</th>
+                                    @if(Auth::user()->role == "admin")
                                     <th>Uploaded By</th>
+                                    <th>User Status</th>
+                                    @endif
                                     <th>Uploaded At</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            {{-- <tbody>
-                                @foreach ($products as $product)
+                            <tbody>
+                                @foreach ($documents as $document)
                                     <tr>
                                         <td>{{ $loop->index + 1 }} </td>
-                                        <td>{{ $product->name }} </td>
-                                        <td><img src="{{ url($product->image) }}" class="rounded-circle" width="50"
-                                                height="50" /> </td>
-                                        <td>{{ $product->quantity }} </td>
-                                        <td>{{ $product->cost }} </td>
-                                        <td>
-                                            @if ($product->active == '1')
-                                                Active
-                                            @else
-                                                Inactive
+                                        <td>{{ $document->document_name }} </td>
+                                        <td style="display:none;" id="document_guid">{{ $document->document_guid }} </td>
+                                        <td>{{ $document->document_type }} </td>
+                                        <td>{{ $document->document_size }} </td>
+                                        @if(Auth::user()->role == "admin")
+                                            <td>{{ $document->uploaded_by }} </td>
+                                            <td>
+                                            @if($document->user_status == 1)<span class="badge badge-success">Active</span>
+                                            @else 
+                                            <span class="badge badge-danger">Inactive</span>
                                             @endif
-                                        </td>
-                                        <td>
-                                            <a href="products/{{ $product->id }}/edit" class="btn btn-dark btn-sm">Edit
-                                            </a>
-                                            <a href="products/delete/{{ $product->id }}" class="btn btn-dark btn-sm">Delete
+                                            </td>
+                                        @endif
+                                        <td>{{ \Carbon\Carbon::parse($document->created_at)->format('Y-m-d')}} </td>
+                                        <td><button type="button" class="btn btn-danger btn-sm" id="delete" data-toggle="modal"  value="{{$document->id}}" data-target="#myModal">Delete</button>
+                                            <a href="{{route('document.download', ['file_name' => $document->document_file])}}" class="btn btn-success btn-sm">Download
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
 
-                            </tbody> --}}
+                            </tbody>
                         </table>
+                        <div class="pagination">
+                            {{ $documents->links('pagination::bootstrap-4')}}
+                        </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ARE YOU SURE?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this document?</p>
+            </div>
+            <div class="modal-footer">
+                <form action="{{ route('document.delete') }}" method="post">
+                    @csrf
+                    <input type="hidden" id="id" name="id">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">NO</button>
+                    <button type="submit" class="btn btn-primary">YES</button>
+                </form>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
@@ -111,5 +152,11 @@
         function handleFileChange() {
             document.getElementById('uploadForm').submit();
         }
+        $('body').on('click', '#delete', function() {
+            var id = $(this).parents('tr').find('#document_guid').text();
+            $('#id').val(id);
+        })
     </script>
+    
+
 @endpush

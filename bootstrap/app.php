@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias(
             [
                 'LoginCheck' => \App\Http\Middleware\LoginCheck::class,
+                'AdminCheck' => \App\Http\Middleware\AdminCheck::class,
 
             ]
         );
