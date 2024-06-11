@@ -31,41 +31,42 @@
                             {{-- <img src="{{ asset('assets/images/big/icon.png') }}" alt="wrapkit"> --}}
                         </div>
                         {{-- <h2 class="mt-3 text-center">Sign In</h2> --}}
-                        <p class="text-center">Enter your email address and password for further access.</p>
-                        <form class="mt-4" method="post" action="{{ route('login.submit') }}">
+                        <form class="mt-4" method="post" action="{{ route('sign-up.submit') }}">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="text-dark" for="uname">Email</label>
-                                        <input class="form-control @if ($errors->has('email')) is-invalid @endif" id="uname" type="email" name="email" placeholder="Enter your email" required="required" value="{{ old('email') }}">
+                                        <label class="text-dark" >Full Name</label>
+                                        <input class="form-control @if ($errors->has('name')) is-invalid @endif"  type="name" name="name" placeholder="Enter your name" required="required" value="{{ old('name') }}">
+                                        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="text-dark" >Email</label>
+                                        <input class="form-control @if ($errors->has('email')) is-invalid @endif"  type="email" name="email" placeholder="Enter your email" required="required" value="{{ old('email') }}">
                                         <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="text-dark" for="pwd">Password</label>
-                                        <input class="form-control @if ($errors->has('password')) is-invalid @endif" id="pwd" type="password" name="password" placeholder="Enter your password" required="required">
+                                        <label class="text-dark">Password</label>
+                                        <input class="form-control @if ($errors->has('password')) is-invalid @endif"type="password" name="password" placeholder="Enter your password" required="required">
                                         <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                     </div>
                                 </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="text-dark">Confirm Password</label>
+                                        <input class="form-control @if ($errors->has('confirm_password')) is-invalid @endif"type="password" name="confirm_password" placeholder="Confirm Password" required="required">
+                                        <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-12 text-center">
-                                    <button type="submit" class="btn btn-block btn-dark">LOGIN</button>
+                                    <button type="submit" class="btn btn-block btn-dark">Sign Up</button>
                                 </div>
                             </div>
                         </form>
-                        <div class="text-center mt-3">
-                            <a href="{{route('sign-up')}}">
-                                Don't have an account?Sign up here
-                            </a>
-                            <div class="row justify-content-center">
-                                OR
-                            </div>
-                        <a href="{{route('google.auth')}}"><button type="button" class="login-with-google-btn" >
-                            Sign in with Google
-                        </button>
-                        </a>
-                        </div>
             
                     </div>        
                 </div>
