@@ -27,9 +27,6 @@
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                        <a class="dropdown-item" href="#">
-                            <i data-feather="user" class="svg-icon mr-2 ml-1"></i> My Profile
-                        </a>
 
                         <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i data-feather="power" class="svg-icon mr-2 ml-1"></i> Logout

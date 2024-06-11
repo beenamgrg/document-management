@@ -58,9 +58,11 @@
 			toastr["warning"]('<?= Session::get('warning') ?>', "Warning");
 			@endif
 
-			@if(Session::has('error'))
-			toastr["error"]('<?= Session::get('error') ?>', "Error");
-			@endif
+            @if(Session::has('error'))
+            @foreach (Session::get('error') as $message)
+            toastr["error"]('<?= $message ?>', "Error");
+            @endforeach
+            @endif
 		});
 	</script>
 

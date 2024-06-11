@@ -81,6 +81,7 @@
     </script>
 
     <script>
+
         $(document).ready(function() {
             toastr.options = {
                 "closeButton": true,
@@ -114,7 +115,9 @@
             @endif
 
             @if(Session::has('error'))
-            toastr["error"]('<?= Session::get('error') ?>', "Error");
+            @foreach (Session::get('error') as $message)
+            toastr["error"]('<?= $message ?>', "Error");
+            @endforeach
             @endif
         });
     </script>

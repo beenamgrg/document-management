@@ -26,10 +26,13 @@ class DocumentController extends Controller
             $validator = Validator::make($request->all(), [
                 'document' => 'required|mimes:csv,txt|max:' . config('fileSize.max_file_size'),
             ]);
+
+            //Validation is working but I don't know why the session is not storing error messages
             if ($validator->fails())
             {
-                Session::flash('warning', 'Validation Error');
-                return redirect()->back()->withInput($request->input());
+                Session::flash('error', $validator->errors()->all());
+                return redirect()->back()
+                    ->withInput($request->input());
             }
 
             // Generate a unique identifier for the file
