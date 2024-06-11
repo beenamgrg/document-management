@@ -15,6 +15,7 @@ return new class extends Migration
         {
             $table->id();
             $table->string('document_name');
+            $table->string('document_file');
             $table->string('document_type');
             $table->string('document_guid');
             $table->string('document_size');

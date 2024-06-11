@@ -57,13 +57,13 @@ class SessionController extends Controller
         {
             // dd($request->all());
             $validator = Validator::make($request->all(), [
-                'email' => 'required',
+                'email' => 'required|email',
                 'password' => 'required',
             ]);
 
             if ($validator->fails())
             {
-                Session::flash('warning', $validator->errors()->all());
+                Session::flash('warning', 'Invalid Credentials');
                 return redirect()->back()
                     ->withInput($request->input());
             }
