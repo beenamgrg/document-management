@@ -10,21 +10,24 @@
     <div class="card-group"style="column-gap:1rem;">
         @if(Auth::user()->role == "admin")
         <div class="card border-right">
-            <div class="card-body">
-                <div class="d-flex d-lg-flex d-md-block align-items-center">
-                    <div>
-                        <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">{{DB::table('users')->where('status',1)->count();}}
-                        </h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Users</h6>
-                    </div>
-                    <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+            <a href="{{route('admin.users')}}">
+                <div class="card-body">
+                    <div class="d-flex d-lg-flex d-md-block align-items-center">
+                        <div>
+                            <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium">{{DB::table('users')->where('status',1)->count();}}
+                            </h2>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Users</h6>
+                        </div>
+                        <div class="ml-auto mt-md-3 mt-lg-0">
+                            <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         @endif
         <div class="card border-right">
+            <a href="{{route('dashboard.index')}}">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
@@ -36,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            </a>
         </div>
     </div>
         <div class="row container-fluid">
@@ -57,6 +61,11 @@
                             </form>
                         </div>
                     </div>
+                    @if($documents->count()<1)
+                    <div>
+                        <h3 class="text-muted font-weight-bold mb-0 w-100 text-truncate">No Documents</h3>
+                    </div>                
+                    @else
                     <div class="table-responsive">
                         <table id="datatable_product" class="table table-striped table-bordered display no-wrap" style="width:100%">
                             <thead>
@@ -104,6 +113,7 @@
                             {{ $documents->links('pagination::bootstrap-4')}}
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -118,7 +128,7 @@
                 <h4 class="modal-title">ARE YOU SURE?</h4>
             </div>
             <div class="modal-body">
-                <p>Do you really want to delete this item?</p>
+                <p>Do you really want to delete this document?</p>
             </div>
             <div class="modal-footer">
                 <form action="{{ route('document.delete') }}" method="post">
