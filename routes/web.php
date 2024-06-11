@@ -20,7 +20,7 @@ Route::get('auth/google/call-back ', [GoogleAuthController::class, 'handleGoogle
 
 
 
-Route::group(['middleware' => ['auth',]], function ()
+Route::group(['middleware' => ['LoginCheck',]], function ()
 {
     Route::post('/logout',  [SessionController::class, 'logout'])->name('logout.submit');
     Route::get('/dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');

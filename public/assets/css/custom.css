@@ -147,3 +147,6 @@ tfoot {
         cursor: not-allowed;
     }
 }
+.topbar .top-navbar {
+    background-color: #ffffff;
+}

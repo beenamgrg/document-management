@@ -116,7 +116,7 @@ $(function () {
             $("#main-wrapper").attr("data-sidebartype", "mini-sidebar");
             $("#main-wrapper").addClass("mini-sidebar");
         } else {
-            $("#main-wrapper").attr("data-sidebartype", "full");
+            // $("#main-wrapper").attr("data-sidebartype", "full");
             $("#main-wrapper").removeClass("mini-sidebar");
         }
     };

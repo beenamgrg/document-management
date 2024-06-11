@@ -11,11 +11,11 @@
 		</div>
 	</div>
 
-	<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+	<div id="main-wrapper" data-theme="light" data-layout="vertical" >
 
 		@include('layouts.header.search-bar')
 
-		@include('layouts.header.nav-bar')
+		{{-- @include('layouts.header.nav-bar') --}}
 
 		<div class="page-wrapper">
 			@yield('content')
