@@ -115,9 +115,7 @@
             @endif
 
             @if(Session::has('error'))
-            @foreach (Session::get('error') as $message)
-            toastr["error"]('<?= $message ?>', "Error");
-            @endforeach
+            toastr["error"]('<?= Session::get('error') ?>', "Error");
             @endif
         });
     </script>

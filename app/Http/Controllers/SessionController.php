@@ -64,7 +64,7 @@ class SessionController extends Controller
 
             if ($validator->fails())
             {
-                Session::flash('error', $validator->errors()->all());
+                Session::flash('error', 'Validation Error');
                 return redirect()->back()
                     ->withInput($request->input());
             }

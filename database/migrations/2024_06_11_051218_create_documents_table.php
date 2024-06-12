@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('document_name');
             $table->string('document_file');
-            $table->string('document_type');
+            $table->enum('document_type', ['private', 'public'])->default('private');
             $table->string('document_guid');
             $table->string('document_size');
             $table->string('document_checksum');

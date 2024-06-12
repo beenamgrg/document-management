@@ -8,7 +8,21 @@
 
 <div class="container-fluid">
     <div class="card-group"style="column-gap:1rem;">
-        @if(Auth::user()->role == "admin")
+        <div class="card border-right">
+            <div class="card-body">
+                <a href="{{route('dashboard.index')}}">
+                    <div class="d-flex d-lg-flex d-md-block align-items-center">
+                        <div>
+                            <h2 class="text-dark mb-1 font-weight-medium">{{$document_count}}</h2>
+                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Documents</h6>
+                        </div>
+                        <div class="ml-auto mt-md-3 mt-lg-0">
+                            <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
         <div class="card border-right">
             <div class="card-body">
                 <a href="{{route('admin.users')}}">
@@ -20,22 +34,6 @@
                         </div>
                         <div class="ml-auto mt-md-3 mt-lg-0">
                             <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        @endif
-        <div class="card border-right">
-            <div class="card-body">
-                <a href="{{route('dashboard.index')}}">
-                    <div class="d-flex d-lg-flex d-md-block align-items-center">
-                        <div>
-                            <h2 class="text-dark mb-1 font-weight-medium">{{$document_count}}</h2>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Documents</h6>
-                        </div>
-                        <div class="ml-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
                         </div>
                     </div>
                 </a>

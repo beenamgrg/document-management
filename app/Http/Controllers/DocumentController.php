@@ -23,13 +23,15 @@ class DocumentController extends Controller
         DB::beginTransaction();
         try
         {
+            // dd($request->all());
             $validator = Validator::make($request->all(), [
                 'document' => 'required|mimes:csv,txt|max:' . config('fileSize.max_file_size'),
             ]);
 
-            //Validation is working but I don't know why the session is not storing error messages
+            //Validation is working but I couldn't figure out  why the session is not storing error messages
             if ($validator->fails())
             {
+                echo ($validator->errors()->all());
                 Session::flash('error', $validator->errors()->all());
                 return redirect()->back()
                     ->withInput($request->input());
@@ -41,7 +43,6 @@ class DocumentController extends Controller
             // Get the original name of the uploaded document
             $document_original_name = $request->document->getClientOriginalName();
             $document_name = pathinfo($document_original_name, PATHINFO_FILENAME);
-            $type = pathinfo($document_original_name, PATHINFO_EXTENSION);
             $document_size = $request->file('document')->getSize();
 
             // Move the uploaded file to the desired location
@@ -64,7 +65,7 @@ class DocumentController extends Controller
             $document = new Document();
             $document->document_name = $document_name;
             $document->document_file = $file_path . $file_name; // Corrected file path
-            $document->document_type = $type;
+            $document->document_type = $request->document_type;
             $document->document_guid = $guid;
             $document->document_checksum = $checksum;
             $document->document_size = $document_size . ' bytes';
@@ -76,12 +77,12 @@ class DocumentController extends Controller
             //Dispatch the job to generate json file of that csv file
             ProcessCSV::dispatch($file_path . $file_name, $guid);
 
-            return redirect()->back()->with('success', 'Document created successfully');
+            return redirect()->back()->with('success', 'Document uploaded successfully');
         }
         catch (Exception $e)
         {
             DB::rollBack();
-            Session::flash('error', 'couldnot create');
+            Session::flash('error', 'Document could not be uploaded!!');
             return redirect()->back()->withInput($request->input());
         }
     }
