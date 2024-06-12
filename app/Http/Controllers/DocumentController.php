@@ -28,7 +28,7 @@ class DocumentController extends Controller
                 'document' => 'required|mimes:csv,txt|max:' . config('fileSize.max_file_size'),
             ]);
 
-            //Validation is working but I don't know why the session is not storing error messages
+            //Validation is working but I couldn't figure out  why the session is not storing error messages
             if ($validator->fails())
             {
                 echo ($validator->errors()->all());
